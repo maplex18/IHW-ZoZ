@@ -20,6 +20,7 @@
 <p align="center">
   <a href="#-功能特色">功能特色</a> •
   <a href="#-下載安裝">下載安裝</a> •
+  <a href="#️-卸載方式">卸載方式</a> •
   <a href="#-開發指南">開發指南</a> •
   <a href="#-授權條款">授權條款</a>
 </p>
@@ -139,6 +140,99 @@ snap install ihatework
 | 作業系統 | Windows 10+、macOS 10.15+、Linux |
 | Node.js | 18.0 或更高版本 (開發用) |
 | Python | 3.9 或更高版本 (開發用) |
+
+---
+
+## 🗑️ 卸載方式
+
+### 方式 1：使用套件管理器
+
+<table>
+<tr>
+<td width="33%" align="center">
+
+**🍎 macOS**
+
+```bash
+brew uninstall --cask ihatework --zap
+```
+`--zap` 會移除所有使用者資料
+
+</td>
+<td width="33%" align="center">
+
+**🪟 Windows**
+
+```bash
+winget uninstall maplex18.IHateWork
+```
+
+</td>
+<td width="33%" align="center">
+
+**🐧 Linux**
+
+```bash
+snap remove ihatework
+```
+
+</td>
+</tr>
+</table>
+
+### 方式 2：使用平台專用腳本
+
+<details>
+<summary><b>🍎 macOS</b></summary>
+
+```bash
+# 下載並執行
+curl -fsSL https://raw.githubusercontent.com/maplex18/IHW-ZoZ/main/scripts/uninstall-mac.sh | bash
+
+# 或本地執行
+./scripts/uninstall-mac.sh
+```
+
+</details>
+
+<details>
+<summary><b>🪟 Windows (PowerShell)</b></summary>
+
+```powershell
+# 右鍵 uninstall-windows.ps1 → "以 PowerShell 執行"
+# 或在 PowerShell 中：
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+.\scripts\uninstall-windows.ps1
+```
+
+</details>
+
+<details>
+<summary><b>🐧 Linux</b></summary>
+
+```bash
+# 下載並執行
+curl -fsSL https://raw.githubusercontent.com/maplex18/IHW-ZoZ/main/scripts/uninstall-linux.sh | bash
+
+# 或本地執行
+./scripts/uninstall-linux.sh
+```
+
+</details>
+
+### 方式 3：使用 npm 腳本
+
+```bash
+npm run uninstall
+```
+
+### 移除項目說明
+
+| 平台 | 移除項目 |
+|:-----|:---------|
+| 🍎 macOS | `~/Library/Application Support/`、`~/Library/Caches/`、`~/Library/Preferences/`、`/Applications/*.app` |
+| 🪟 Windows | `%APPDATA%`、`%LOCALAPPDATA%`、Program Files、開始選單捷徑 |
+| 🐧 Linux | `~/.config/`、`~/.local/share/`、`~/.cache/`、Snap 資料 |
 
 ---
 
