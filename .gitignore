@@ -12,7 +12,9 @@ __pycache__/
 # Build output
 out/
 dist/
-build/
+# Keep build/icon.* files for electron-builder
+build/*
+!build/icon.*
 *.dmg
 *.exe
 *.AppImage
