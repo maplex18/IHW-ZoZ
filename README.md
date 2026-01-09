@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="build/icon.png" alt="IHW-ZoZ Logo" width="120" height="120">
+  <img src="resources/icons/icon.png" alt="IHW-ZoZ Logo" width="120" height="120">
 </p>
 
 <h1 align="center">IHW-ZoZ</h1>
