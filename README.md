@@ -19,8 +19,8 @@
 
 <p align="center">
   <a href="#-功能特色">功能特色</a> •
-  <a href="#-安裝指南">安裝指南</a> •
-  <a href="#-技術架構">技術架構</a> •
+  <a href="#-下載安裝">下載安裝</a> •
+  <a href="#-開發指南">開發指南</a> •
   <a href="#-授權條款">授權條款</a>
 </p>
 
@@ -92,32 +92,70 @@
 
 ---
 
-## 💻 系統需求
+## 📥 下載安裝
+
+### 一般用戶
+
+從 [GitHub Releases](https://github.com/maplex18/IHW-ZoZ/releases) 下載最新版本，或使用套件管理器：
+
+<table>
+<tr>
+<td width="33%" align="center">
+
+**🍎 macOS**
+
+```bash
+brew tap maplex18/ihatework
+brew install --cask ihatework
+```
+
+</td>
+<td width="33%" align="center">
+
+**🪟 Windows**
+
+```bash
+winget install maplex18.IHateWork
+```
+
+</td>
+<td width="33%" align="center">
+
+**🐧 Linux**
+
+```bash
+snap install ihatework
+```
+或下載 AppImage
+
+</td>
+</tr>
+</table>
+
+### 系統需求
 
 | 項目 | 需求 |
 |:-----|:-----|
 | 作業系統 | Windows 10+、macOS 10.15+、Linux |
-| Node.js | 18.0 或更高版本 |
-| Python | 3.9 或更高版本 |
+| Node.js | 18.0 或更高版本 (開發用) |
+| Python | 3.9 或更高版本 (開發用) |
 
 ---
 
-## 📦 安裝指南
+## 🔧 開發指南
 
-### 快速開始
+### 環境設定
 
 ```bash
 # 1️⃣ 複製專案
-git clone https://github.com/maplex18/IHateWork.git
-cd IHateWork
+git clone https://github.com/maplex18/IHW-ZoZ.git
+cd IHW-ZoZ
 
-# 2️⃣ 安裝 Node.js 依賴
+# 2️⃣ 安裝依賴
 npm install
-
-# 3️⃣ 安裝 Python 依賴
 pip install -r python/requirements.txt
 
-# 4️⃣ 啟動開發模式
+# 3️⃣ 啟動開發模式
 npm run dev
 ```
 
@@ -151,6 +189,20 @@ npm run build:linux
 </td>
 </tr>
 </table>
+
+### 發布流程
+
+```bash
+# 1️⃣ 本地測試
+npm run build:python    # 構建 Python 後端
+npm run release:mac     # 完整構建 macOS 版本
+
+# 2️⃣ 建立版本標籤
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+> 📦 推送 tag 後，GitHub Actions 會自動構建三平台版本並發布到 Releases
 
 ---
 
