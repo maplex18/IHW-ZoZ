@@ -94,6 +94,8 @@ export interface AppSettings {
   // Audio settings
   audioDefaultFormat: string
   audioDefaultBitrate: string
+  // Onboarding
+  hasCompletedOnboarding: boolean
 }
 
 // Tool categories

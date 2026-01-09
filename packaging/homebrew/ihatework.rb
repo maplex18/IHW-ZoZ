@@ -1,25 +1,25 @@
-# Homebrew Cask formula for IHateWork
-# To use, create a tap repository (homebrew-ihatework) and add this file
+# Homebrew Cask formula for IHW-ZoZ
+# To use, create a tap repository (homebrew-ihwzoz) and add this file
 #
 # Installation:
-#   brew tap maplex18/ihatework
-#   brew install --cask ihatework
+#   brew tap maplex18/ihwzoz
+#   brew install --cask ihwzoz
 
-cask "ihatework" do
+cask "ihwzoz" do
   version "1.0.0"
-  sha256 "REPLACE_WITH_ACTUAL_SHA256"
+  sha256 "a5336afa5568115bc36053e53053050733f172def4e61c361d305fb06cceab21"
 
-  url "https://github.com/maplex18/IHateWork/releases/download/v#{version}/IHateWork-#{version}-mac.dmg"
-  name "IHateWork"
+  url "https://github.com/maplex18/IHW-ZoZ/releases/download/v#{version}/IHW-ZoZ-#{version}-arm64.dmg"
+  name "IHW-ZoZ"
   desc "Cross-platform local media processing tool"
-  homepage "https://github.com/maplex18/IHateWork"
+  homepage "https://github.com/maplex18/IHW-ZoZ"
 
   livecheck do
     url :url
     strategy :github_latest
   end
 
-  app "IHateWork.app"
+  app "IHW-ZoZ.app"
 
   zap trash: [
     "~/Library/Application Support/IHW-ZoZ",

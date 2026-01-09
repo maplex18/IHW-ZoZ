@@ -157,5 +157,6 @@ export const DEFAULT_SETTINGS = {
   videoDefaultQuality: 23,
   videoDefaultPreset: 'medium',
   audioDefaultFormat: 'mp3',
-  audioDefaultBitrate: '192k'
+  audioDefaultBitrate: '192k',
+  hasCompletedOnboarding: false
 }
