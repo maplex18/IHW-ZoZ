@@ -27,6 +27,12 @@
 
 ---
 
+<p align="center">
+  <img src="docs/screenshots/home-en.png" alt="IHW-ZoZ Screenshot" width="800">
+</p>
+
+---
+
 ## Features
 
 <table>

@@ -27,6 +27,12 @@
 
 ---
 
+<p align="center">
+  <img src="docs/screenshots/home-zh.png" alt="IHW-ZoZ 截圖" width="800">
+</p>
+
+---
+
 ## 功能特色
 
 <table>
