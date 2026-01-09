@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Cross-platform local media processing tool",
   "main": "./out/main/index.js",
-  "author": "maple",
+  "author": {
+    "name": "maple",
+    "email": "maplex18@users.noreply.github.com"
+  },
   "license": "SEE LICENSE IN LICENSE",
   "homepage": "https://github.com/maplex18/IHW-ZoZ",
   "repository": {
@@ -115,7 +118,8 @@
         "nsis",
         "portable"
       ],
-      "icon": "build/icon.ico"
+      "icon": "build/icon.ico",
+      "artifactName": "${productName}-${version}-win.${ext}"
     },
     "linux": {
       "target": [
@@ -127,7 +131,20 @@
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
-    }
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerHeaderIcon": "build/icon.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "IHW-ZoZ"
+    },
+    "electronLanguages": [
+      "en-US",
+      "zh-CN",
+      "zh-TW",
+      "ja"
+    ],
+    "compression": "maximum"
   }
 }
