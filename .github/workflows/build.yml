@@ -64,17 +64,17 @@ jobs:
 
       - name: Build Electron app (macOS)
         if: matrix.platform == 'mac'
-        run: npm run build:mac
+        run: npm run build:mac -- --publish never
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: false
 
       - name: Build Electron app (Windows)
         if: matrix.platform == 'win'
-        run: npm run build:win
+        run: npm run build:win -- --publish never
 
       - name: Build Electron app (Linux)
         if: matrix.platform == 'linux'
-        run: npm run build:linux
+        run: npm run build:linux -- --publish never
 
       - name: Upload macOS artifacts
         if: matrix.platform == 'mac'
