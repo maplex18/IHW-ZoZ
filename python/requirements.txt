@@ -1,0 +1,16 @@
+# PDF Processing
+PyMuPDF==1.24.3
+pymupdf-fonts==1.0.5
+
+# OCR
+pytesseract==0.3.10
+Pillow==10.4.0
+
+# Office Documents
+python-docx==1.1.2
+python-pptx==1.0.2
+openpyxl==3.1.5
+
+# Utilities
+pydantic==2.9.2
+loguru==0.7.2
