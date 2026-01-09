@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IHateWork - Local Media Processing Tool</title>
+  <meta name="description" content="Cross-platform local media processing tool for PDF, video, audio, and images. Free, open-source, and privacy-focused.">
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+      --text: #e0e0e0;
+      --text-muted: #888;
+      --primary: #6366f1;
+      --primary-hover: #818cf8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    header {
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 24px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .hero {
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--primary), #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+
+    .download-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--text-muted);
+      transform: translateY(-2px);
+    }
+
+    .features {
+      padding: 80px 0;
+    }
+
+    .features h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 48px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      font-size: 1.5rem;
+    }
+
+    .icon-pdf { background: rgba(239, 68, 68, 0.2); }
+    .icon-video { background: rgba(99, 102, 241, 0.2); }
+    .icon-audio { background: rgba(168, 85, 247, 0.2); }
+    .icon-image { background: rgba(34, 197, 94, 0.2); }
+
+    .install {
+      padding: 80px 0;
+      background: var(--surface);
+    }
+
+    .install h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 48px;
+    }
+
+    .install-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .install-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .install-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .install-card pre {
+      background: var(--surface);
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'SF Mono', Consolas, monospace;
+      font-size: 0.9rem;
+      color: var(--primary);
+    }
+
+    footer {
+      padding: 48px 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .download-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/" class="logo">IHateWork</a>
+      <nav class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#install">Install</a>
+        <a href="https://github.com/maplex18/IHateWork">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>IHateWork</h1>
+        <p>Cross-platform local media processing tool. Process PDFs, videos, audio, and images completely offline. Free and open-source.</p>
+        <div class="download-buttons">
+          <a href="https://github.com/maplex18/IHateWork/releases/latest/download/IHateWork-mac.dmg" class="btn btn-primary">
+            Download for macOS
+          </a>
+          <a href="https://github.com/maplex18/IHateWork/releases/latest/download/IHateWork-Setup.exe" class="btn btn-secondary">
+            Download for Windows
+          </a>
+          <a href="https://github.com/maplex18/IHateWork/releases/latest/download/IHateWork.AppImage" class="btn btn-secondary">
+            Download for Linux
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <div class="container">
+        <h2>Features</h2>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon icon-pdf">PDF</div>
+            <h3>PDF Tools</h3>
+            <p>Merge, split, compress, rotate, add watermarks, encrypt, and decrypt PDF files.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon icon-video">Video</div>
+            <h3>Video Processing</h3>
+            <p>Compress videos to reduce file size. Convert between popular video formats.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon icon-audio">Audio</div>
+            <h3>Audio Conversion</h3>
+            <p>Convert audio files between formats. Extract audio tracks from video files.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon icon-image">Image</div>
+            <h3>Image Tools</h3>
+            <p>Create GIFs, resize, crop, rotate, flip images. Extract colors from images.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="install" id="install">
+      <div class="container">
+        <h2>Installation</h2>
+        <div class="install-grid">
+          <div class="install-card">
+            <h3>macOS (Homebrew)</h3>
+            <pre>brew tap maplex18/ihatework
+brew install --cask ihatework</pre>
+          </div>
+          <div class="install-card">
+            <h3>Windows (Winget)</h3>
+            <pre>winget install maplex18.IHateWork</pre>
+          </div>
+          <div class="install-card">
+            <h3>Linux (Snap)</h3>
+            <pre>snap install ihatework</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        Made with care. <a href="https://github.com/maplex18/IHateWork">View on GitHub</a>
+      </p>
+      <p style="margin-top: 8px;">
+        MIT License
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

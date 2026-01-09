@@ -15,10 +15,15 @@
     "build": "electron-vite build",
     "preview": "electron-vite preview",
     "postinstall": "electron-builder install-app-deps",
+    "build:python": "node scripts/build-python.js",
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "npm run build && electron-builder --mac",
     "build:linux": "npm run build && electron-builder --linux",
+    "release:win": "npm run build:python && npm run build:win",
+    "release:mac": "npm run build:python && npm run build:mac",
+    "release:linux": "npm run build:python && npm run build:linux",
+    "uninstall": "node scripts/uninstall.js",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json",
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json",
@@ -75,8 +80,11 @@
     },
     "files": [
       "out/**/*",
-      "resources/**/*",
-      "python/**/*"
+      "resources/**/*"
+    ],
+    "asarUnpack": [
+      "node_modules/ffmpeg-static/**/*",
+      "node_modules/@ffprobe-installer/**/*"
     ],
     "extraResources": [
       {
@@ -87,10 +95,10 @@
         ]
       },
       {
-        "from": "python/",
+        "from": "python/dist/",
         "to": "python/",
         "filter": [
-          "**/*"
+          "ihatework-backend*"
         ]
       }
     ],

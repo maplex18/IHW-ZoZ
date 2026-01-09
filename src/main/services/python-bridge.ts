@@ -60,6 +60,30 @@ export class PythonBridge extends EventEmitter {
     return join(process.resourcesPath, 'python', 'main.py')
   }
 
+  private getExecutablePath(): string {
+    // Get the path to the packaged Python backend executable
+    const ext = process.platform === 'win32' ? '.exe' : ''
+    const execName = `ihatework-backend${ext}`
+
+    if (is.dev) {
+      // In development, check if executable exists in python/dist
+      return join(app.getAppPath(), 'python', 'dist', execName)
+    }
+    // In production, executable is in resources/python
+    return join(process.resourcesPath, 'python', execName)
+  }
+
+  private usePackagedExecutable(): boolean {
+    // Check if the packaged executable exists
+    const execPath = this.getExecutablePath()
+    try {
+      const fs = require('fs')
+      return fs.existsSync(execPath)
+    } catch {
+      return false
+    }
+  }
+
   private getFfmpegPath(): string {
     if (!ffmpegPath) {
       return ''
@@ -85,23 +109,34 @@ export class PythonBridge extends EventEmitter {
   async start(): Promise<void> {
     if (this.isRunning) return
 
-    const pythonPath = this.getPythonPath()
-    const scriptPath = this.getScriptPath()
+    const usePackaged = this.usePackagedExecutable()
+    const ffmpegPathValue = this.getFfmpegPath()
+    const ffprobePathValue = this.getFfprobePath()
 
-    console.log(`Starting Python bridge: ${pythonPath} ${scriptPath}`)
+    let command: string
+    let args: string[]
+
+    if (usePackaged) {
+      // Use the packaged PyInstaller executable
+      command = this.getExecutablePath()
+      args = []
+      console.log(`Starting Python bridge (packaged): ${command}`)
+    } else {
+      // Use Python interpreter with script (development mode)
+      command = this.getPythonPath()
+      args = [this.getScriptPath()]
+      console.log(`Starting Python bridge (script): ${command} ${args.join(' ')}`)
+    }
 
     try {
-      const ffmpegPath = this.getFfmpegPath()
-      const ffprobePath = this.getFfprobePath()
-
-      this.process = spawn(pythonPath, [scriptPath], {
+      this.process = spawn(command, args, {
         stdio: ['pipe', 'pipe', 'pipe'],
         env: {
           ...process.env,
           PYTHONUNBUFFERED: '1',
           PYTHONIOENCODING: 'utf-8',
-          FFMPEG_PATH: ffmpegPath,
-          FFPROBE_PATH: ffprobePath
+          FFMPEG_PATH: ffmpegPathValue,
+          FFPROBE_PATH: ffprobePathValue
         }
       })
 
