@@ -5,71 +5,72 @@
 <h1 align="center">IHW-ZoZ</h1>
 
 <p align="center">
-  <strong>跨平台本地媒體處理工具</strong><br>
-  完全離線運作，您的檔案不會上傳至任何伺服器
+  <strong>Cross-platform Local Media Processing Tool</strong><br>
+  Works completely offline - your files never leave your computer
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=flat-square" alt="Platform">
   <img src="https://img.shields.io/badge/license-Non--Commercial-orange?style=flat-square" alt="License">
-  <img src="https://img.shields.io/badge/version-1.0.0-green?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/version-1.0.1-green?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/electron-33.0-47848F?style=flat-square&logo=electron" alt="Electron">
   <img src="https://img.shields.io/badge/react-18.3-61DAFB?style=flat-square&logo=react" alt="React">
 </p>
 
 <p align="center">
-  <a href="#-功能特色">功能特色</a> •
-  <a href="#-安裝指南">安裝指南</a> •
-  <a href="#-技術架構">技術架構</a> •
-  <a href="#-授權條款">授權條款</a>
+  <a href="#-features">Features</a> •
+  <a href="#-installation">Installation</a> •
+  <a href="#-tech-stack">Tech Stack</a> •
+  <a href="#-license">License</a> •
+  <a href="README.zh-TW.md">繁體中文</a>
 </p>
 
 ---
 
-## ✨ 功能特色
+## Features
 
 <table>
 <tr>
 <td width="33%" valign="top">
 
-### 📄 PDF 工具
+### PDF Tools
 
-| 功能 | 說明 |
+| Feature | Description |
 |:-----|:-----|
-| 合併 | 多個 PDF 合而為一 |
-| 分割 | 拆分為多個檔案 |
-| 壓縮 | 減少檔案大小 |
-| 轉圖片 | 頁面轉換為圖片 |
-| 旋轉 | 旋轉頁面方向 |
-| 浮水印 | 添加文字浮水印 |
-| 加解密 | 密碼保護功能 |
+| Merge | Combine multiple PDFs |
+| Split | Split into multiple files |
+| Compress | Reduce file size |
+| To Image | Convert pages to images |
+| Rotate | Rotate page orientation |
+| Watermark | Add text watermark |
+| Encrypt/Decrypt | Password protection |
 
 </td>
 <td width="33%" valign="top">
 
-### 🎬 媒體工具
+### Media Tools
 
-| 功能 | 說明 |
+| Feature | Description |
 |:-----|:-----|
-| 影片壓縮 | 減少影片大小 |
-| 影片轉檔 | MP4/MKV/AVI... |
-| 音訊轉檔 | MP3/WAV/FLAC... |
-| 音訊提取 | 從影片提取音軌 |
-| 媒體裁剪 | 擷取特定片段 |
+| Video Compress | Reduce video size |
+| Video Convert | MP4/MKV/AVI... |
+| Audio Convert | MP3/WAV/FLAC... |
+| Audio Extract | Extract audio from video |
+| Media Trim | Extract specific segments |
 
 </td>
 <td width="33%" valign="top">
 
-### 🖼️ 圖片工具
+### Image Tools
 
-| 功能 | 說明 |
+| Feature | Description |
 |:-----|:-----|
-| GIF 製作 | 多圖合成動圖 |
-| 縮放 | 調整圖片尺寸 |
-| 裁切 | 裁切指定區域 |
-| 旋轉 | 任意角度旋轉 |
-| 翻轉 | 水平/垂直翻轉 |
-| 放大 | AI 無損放大 |
+| GIF Maker | Create GIF from images |
+| Resize | Adjust image dimensions |
+| Crop | Crop specific areas |
+| Rotate | Rotate any angle |
+| Flip | Horizontal/Vertical flip |
+| Upscale | AI lossless upscaling |
 
 </td>
 </tr>
@@ -77,51 +78,51 @@
 
 ---
 
-## 🔒 隱私保護
+## Privacy Protection
 
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                                                         │
-│   🔐 所有處理皆在本地完成，檔案不會離開您的電腦        │
+│   All processing is done locally on your computer       │
 │                                                         │
-│   ✓ 無需網路連線        ✓ 無雲端上傳                   │
-│   ✓ 無追蹤程式          ✓ 完全開源                     │
+│   ✓ No internet required      ✓ No cloud uploads        │
+│   ✓ No tracking               ✓ Fully open source       │
 │                                                         │
 └─────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 💻 系統需求
+## System Requirements
 
-| 項目 | 需求 |
+| Item | Requirement |
 |:-----|:-----|
-| 作業系統 | Windows 10+、macOS 10.15+、Linux |
-| Node.js | 18.0 或更高版本 |
-| Python | 3.9 或更高版本 |
+| Operating System | Windows 10+, macOS 10.15+, Linux |
+| Node.js | 18.0 or higher |
+| Python | 3.9 or higher |
 
 ---
 
-## 📦 安裝指南
+## Installation
 
-### 快速開始
+### Quick Start
 
 ```bash
-# 1️⃣ 複製專案
-git clone https://github.com/maplex18/IHateWork.git
-cd IHateWork
+# 1. Clone the repository
+git clone https://github.com/maplex18/IHW-ZoZ.git
+cd IHW-ZoZ
 
-# 2️⃣ 安裝 Node.js 依賴
+# 2. Install Node.js dependencies
 npm install
 
-# 3️⃣ 安裝 Python 依賴
+# 3. Install Python dependencies
 pip install -r python/requirements.txt
 
-# 4️⃣ 啟動開發模式
+# 4. Start development mode
 npm run dev
 ```
 
-### 打包應用程式
+### Build Application
 
 <table>
 <tr>
@@ -154,19 +155,19 @@ npm run build:linux
 
 ---
 
-## 🛠️ 技術架構
+## Tech Stack
 
 ```
 IHW-ZoZ
-├── 前端 (Renderer)
+├── Frontend (Renderer)
 │   ├── ⚛️  React 18
 │   ├── 📘 TypeScript
 │   └── 🎨 Tailwind CSS
 │
-├── 桌面框架
+├── Desktop Framework
 │   └── ⚡ Electron 33
 │
-└── 後端 (Python)
+└── Backend (Python)
     ├── 📄 PyPDF2 / pdf2image
     ├── 🎬 FFmpeg
     └── 🖼️  Pillow
@@ -174,39 +175,39 @@ IHW-ZoZ
 
 ---
 
-## ⚠️ 授權條款
+## License
 
-本專案採用 **自訂授權條款**，詳見 [LICENSE](LICENSE)
+This project uses a **Custom License**. See [LICENSE](LICENSE) for details.
 
 <table>
 <tr>
 <td>🚫</td>
-<td><strong>禁止違法使用</strong></td>
-<td>不得用於任何違法用途</td>
+<td><strong>No Illegal Use</strong></td>
+<td>Must not be used for any illegal purposes</td>
 </tr>
 <tr>
 <td>🚫</td>
-<td><strong>禁止商業使用</strong></td>
-<td>未經授權不得用於商業目的</td>
+<td><strong>No Commercial Use</strong></td>
+<td>Cannot be used for commercial purposes without authorization</td>
 </tr>
 <tr>
 <td>✅</td>
-<td><strong>署名要求</strong></td>
-<td>修改或散布時須保留原作者資訊</td>
+<td><strong>Attribution Required</strong></td>
+<td>Must retain original author information when modifying or distributing</td>
 </tr>
 </table>
 
 ---
 
-## 👤 作者
+## Author
 
 **maple**
 
 ---
 
-## 📜 免責聲明
+## Disclaimer
 
-> 本軟體僅供個人學習與合法用途使用。作者不對任何因使用本軟體而導致的損失或法律問題負責。使用者須自行確保其使用方式符合當地法律法規。
+> This software is provided for personal learning and legal use only. The author is not responsible for any loss or legal issues arising from the use of this software. Users must ensure their usage complies with local laws and regulations.
 
 ---
 
