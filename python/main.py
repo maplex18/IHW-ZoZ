@@ -32,7 +32,6 @@ def create_server() -> JsonRpcServer:
     server.register("pdf.addWatermark", editor.add_watermark)
     server.register("pdf.encrypt", security.encrypt_pdf)
     server.register("pdf.decrypt", security.decrypt_pdf)
-    server.register("pdf.ocr", converter.ocr_pdf)
 
     # Register media methods
     server.register("media.info", ffmpeg_wrapper.get_media_info)

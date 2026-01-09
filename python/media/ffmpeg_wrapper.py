@@ -29,6 +29,11 @@ AUDIO_FORMATS = {
 
 def get_ffmpeg_path() -> str:
     """Get the path to FFmpeg executable."""
+    # First check environment variable (set by Electron)
+    env_path = os.environ.get("FFMPEG_PATH")
+    if env_path and os.path.exists(env_path):
+        return env_path
+
     # Check if FFmpeg is in PATH
     ffmpeg = shutil.which("ffmpeg")
     if ffmpeg:
@@ -50,6 +55,11 @@ def get_ffmpeg_path() -> str:
 
 def get_ffprobe_path() -> str:
     """Get the path to FFprobe executable."""
+    # First check environment variable (set by Electron)
+    env_path = os.environ.get("FFPROBE_PATH")
+    if env_path and os.path.exists(env_path):
+        return env_path
+
     ffprobe = shutil.which("ffprobe")
     if ffprobe:
         return ffprobe

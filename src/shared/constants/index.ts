@@ -100,8 +100,7 @@ export const PDF_TOOLS: Tool[] = [
   { id: 'rotate', name: 'Rotate PDF', description: 'Rotate PDF pages', icon: 'RotateCw', path: '/pdf/rotate', category: 'pdf' },
   { id: 'watermark', name: 'Add Watermark', description: 'Add text or image watermark', icon: 'Droplet', path: '/pdf/watermark', category: 'pdf' },
   { id: 'encrypt', name: 'Encrypt PDF', description: 'Password protect PDF', icon: 'Lock', path: '/pdf/encrypt', category: 'pdf' },
-  { id: 'decrypt', name: 'Decrypt PDF', description: 'Remove PDF password', icon: 'Unlock', path: '/pdf/decrypt', category: 'pdf' },
-  { id: 'ocr', name: 'OCR', description: 'Extract text from scanned PDF', icon: 'ScanText', path: '/pdf/ocr', category: 'pdf' }
+  { id: 'decrypt', name: 'Decrypt PDF', description: 'Remove PDF password', icon: 'Unlock', path: '/pdf/decrypt', category: 'pdf' }
 ]
 
 // Media tools

@@ -9,7 +9,6 @@ import {
   Droplet,
   Lock,
   Unlock,
-  ScanText,
   ChevronRight
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -22,8 +21,7 @@ import {
   PdfRotate,
   PdfWatermark,
   PdfEncrypt,
-  PdfDecrypt,
-  PdfOcr
+  PdfDecrypt
 } from '@/components/tools'
 
 function PdfToolsIndex(): JSX.Element {
@@ -37,8 +35,7 @@ function PdfToolsIndex(): JSX.Element {
     { id: 'rotate', icon: RotateCw, label: t.pdf.rotate, desc: t.pdf.rotateDesc, path: '/pdf/rotate', color: 'bg-teal-500/20 text-teal-400' },
     { id: 'watermark', icon: Droplet, label: t.pdf.watermark, desc: t.pdf.watermarkDesc, path: '/pdf/watermark', color: 'bg-cyan-500/20 text-cyan-400' },
     { id: 'encrypt', icon: Lock, label: t.pdf.encrypt, desc: t.pdf.encryptDesc, path: '/pdf/encrypt', color: 'bg-blue-500/20 text-blue-400' },
-    { id: 'decrypt', icon: Unlock, label: t.pdf.decrypt, desc: t.pdf.decryptDesc, path: '/pdf/decrypt', color: 'bg-indigo-500/20 text-indigo-400' },
-    { id: 'ocr', icon: ScanText, label: t.pdf.ocr, desc: t.pdf.ocrDesc, path: '/pdf/ocr', color: 'bg-purple-500/20 text-purple-400' }
+    { id: 'decrypt', icon: Unlock, label: t.pdf.decrypt, desc: t.pdf.decryptDesc, path: '/pdf/decrypt', color: 'bg-indigo-500/20 text-indigo-400' }
   ]
 
   return (
@@ -84,7 +81,6 @@ export default function PdfTools(): JSX.Element {
       <Route path="watermark" element={<PdfWatermark />} />
       <Route path="encrypt" element={<PdfEncrypt />} />
       <Route path="decrypt" element={<PdfDecrypt />} />
-      <Route path="ocr" element={<PdfOcr />} />
     </Routes>
   )
 }

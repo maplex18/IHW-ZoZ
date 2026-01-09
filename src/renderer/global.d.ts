@@ -36,7 +36,6 @@ interface PdfApi {
   ) => Promise<string>
   encrypt: (file: string, outputPath: string, password: string) => Promise<string>
   decrypt: (file: string, outputPath: string, password: string) => Promise<string>
-  ocr: (file: string, outputPath: string, language?: string) => Promise<string>
 }
 
 interface MediaInfo {

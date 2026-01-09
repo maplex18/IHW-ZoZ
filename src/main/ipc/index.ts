@@ -67,10 +67,6 @@ export function registerIpcHandlers(ipcMain: IpcMain, pythonBridge: PythonBridge
     return pythonBridge.pdfDecrypt(file, outputPath, password)
   })
 
-  ipcMain.handle('pdf:ocr', async (_, file: string, outputPath: string, language: string) => {
-    return pythonBridge.pdfOcr(file, outputPath, language)
-  })
-
   // Media Operations
   ipcMain.handle('media:info', async (_, file: string) => {
     return pythonBridge.mediaInfo(file)

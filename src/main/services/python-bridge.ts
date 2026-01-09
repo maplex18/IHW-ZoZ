@@ -3,6 +3,8 @@ import { EventEmitter } from 'events'
 import { app } from 'electron'
 import { join } from 'path'
 import { is } from '@electron-toolkit/utils'
+import ffmpegPath from 'ffmpeg-static'
+import ffprobePath from '@ffprobe-installer/ffprobe'
 
 interface PendingRequest {
   resolve: (value: unknown) => void
@@ -58,6 +60,28 @@ export class PythonBridge extends EventEmitter {
     return join(process.resourcesPath, 'python', 'main.py')
   }
 
+  private getFfmpegPath(): string {
+    if (!ffmpegPath) {
+      return ''
+    }
+    // In production, ffmpeg-static binary is in app.asar.unpacked
+    if (!is.dev && ffmpegPath.includes('app.asar')) {
+      return ffmpegPath.replace('app.asar', 'app.asar.unpacked')
+    }
+    return ffmpegPath
+  }
+
+  private getFfprobePath(): string {
+    if (!ffprobePath || !ffprobePath.path) {
+      return ''
+    }
+    // In production, ffprobe binary is in app.asar.unpacked
+    if (!is.dev && ffprobePath.path.includes('app.asar')) {
+      return ffprobePath.path.replace('app.asar', 'app.asar.unpacked')
+    }
+    return ffprobePath.path
+  }
+
   async start(): Promise<void> {
     if (this.isRunning) return
 
@@ -67,12 +91,17 @@ export class PythonBridge extends EventEmitter {
     console.log(`Starting Python bridge: ${pythonPath} ${scriptPath}`)
 
     try {
+      const ffmpegPath = this.getFfmpegPath()
+      const ffprobePath = this.getFfprobePath()
+
       this.process = spawn(pythonPath, [scriptPath], {
         stdio: ['pipe', 'pipe', 'pipe'],
         env: {
           ...process.env,
           PYTHONUNBUFFERED: '1',
-          PYTHONIOENCODING: 'utf-8'
+          PYTHONIOENCODING: 'utf-8',
+          FFMPEG_PATH: ffmpegPath,
+          FFPROBE_PATH: ffprobePath
         }
       })
 
@@ -240,10 +269,6 @@ export class PythonBridge extends EventEmitter {
 
   async pdfDecrypt(file: string, outputPath: string, password: string): Promise<string> {
     return this.call('pdf.decrypt', { file, outputPath, password })
-  }
-
-  async pdfOcr(file: string, outputPath: string, language: string = 'eng'): Promise<string> {
-    return this.call('pdf.ocr', { file, outputPath, language })
   }
 
   // Media Operations (via FFmpeg)

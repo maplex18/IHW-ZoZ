@@ -2,8 +2,7 @@
 PyMuPDF==1.24.3
 pymupdf-fonts==1.0.5
 
-# OCR
-pytesseract==0.3.10
+# Image Processing
 Pillow==10.4.0
 
 # Office Documents

@@ -32,9 +32,7 @@ const pdfApi = {
   encrypt: (file: string, outputPath: string, password: string) =>
     ipcRenderer.invoke('pdf:encrypt', file, outputPath, password),
   decrypt: (file: string, outputPath: string, password: string) =>
-    ipcRenderer.invoke('pdf:decrypt', file, outputPath, password),
-  ocr: (file: string, outputPath: string, language?: string) =>
-    ipcRenderer.invoke('pdf:ocr', file, outputPath, language)
+    ipcRenderer.invoke('pdf:decrypt', file, outputPath, password)
 }
 
 // Media operations API

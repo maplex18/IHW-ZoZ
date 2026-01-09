@@ -7,7 +7,6 @@ export { PdfRotate } from './PdfRotate'
 export { PdfWatermark } from './PdfWatermark'
 export { PdfEncrypt } from './PdfEncrypt'
 export { PdfDecrypt } from './PdfDecrypt'
-export { PdfOcr } from './PdfOcr'
 
 // Media Tools
 export { VideoCompress } from './VideoCompress'
