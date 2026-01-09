@@ -97,41 +97,41 @@
 
 ### 一般用戶
 
-從 [GitHub Releases](https://github.com/maplex18/IHW-ZoZ/releases) 下載最新版本，或使用套件管理器：
+從 [GitHub Releases](https://github.com/maplex18/IHW-ZoZ/releases) 下載最新版本：
 
-<table>
-<tr>
-<td width="33%" align="center">
+| 平台 | 檔案 | 說明 |
+|:-----|:-----|:-----|
+| 🍎 macOS (Apple Silicon) | `IHW-ZoZ-x.x.x-arm64.dmg` | M1/M2/M3 晶片 |
+| 🪟 Windows (安裝版) | `IHW-ZoZ Setup x.x.x.exe` | 標準安裝程式 |
+| 🪟 Windows (免安裝) | `IHW-ZoZ x.x.x.exe` | 綠色版，無需安裝 |
 
-**🍎 macOS**
+### ⚠️ macOS 首次開啟說明
 
-```bash
-brew tap maplex18/ihatework
-brew install --cask ihatework
-```
+由於應用程式尚未經過 Apple 公證，首次開啟時會顯示安全警告。
 
-</td>
-<td width="33%" align="center">
+<details>
+<summary><b>👉 點擊查看解決方法</b></summary>
 
-**🪟 Windows**
+#### 方法 A：右鍵開啟（推薦）
 
-```bash
-winget install maplex18.IHateWork
-```
+1. 在 Applications 資料夾中找到 **IHW-ZoZ**
+2. **按住 Control 鍵並點擊**（或右鍵點擊）
+3. 選擇「**打開**」
+4. 在彈出的對話框中點擊「**打開**」
 
-</td>
-<td width="33%" align="center">
+![右鍵打開](docs/images/right-click-open.png)
 
-**🐧 Linux**
+#### 方法 B：從系統設定開啟
 
-```bash
-snap install ihatework
-```
-或下載 AppImage
+1. 開啟「**系統設定**」→「**隱私權與安全性**」
+2. 向下捲動找到安全性區域
+3. 點擊「**強制打開**」(Open Anyway)
 
-</td>
-</tr>
-</table>
+![系統設定](docs/images/system-settings-security.png)
+
+</details>
+
+📖 詳細圖文教學：[macOS 安裝指南](docs/INSTALL_MACOS.md)
 
 ### 系統需求
 
