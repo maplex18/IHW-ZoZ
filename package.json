@@ -1,6 +1,6 @@
 {
   "name": "ihw-zoz",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Cross-platform local media processing tool",
   "main": "./out/main/index.js",
   "author": {
