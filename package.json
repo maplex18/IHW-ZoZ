@@ -1,6 +1,6 @@
 {
   "name": "ihw-zoz",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Cross-platform local media processing tool",
   "main": "./out/main/index.js",
   "author": {
@@ -106,16 +106,7 @@
       }
     ],
     "mac": {
-      "target": [
-        {
-          "target": "dmg",
-          "arch": ["x64", "arm64"]
-        },
-        {
-          "target": "zip",
-          "arch": ["x64", "arm64"]
-        }
-      ],
+      "target": ["dmg", "zip"],
       "icon": "build/icon.icns",
       "category": "public.app-category.productivity",
       "artifactName": "${productName}-${version}-mac-${arch}.${ext}"
