@@ -1,14 +1,14 @@
 import { Routes, Route, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Film, FileVideo, FileAudio, AudioLines, Scissors, ChevronRight } from 'lucide-react'
+import { Film, FileVideo, FileAudio, AudioLines, ChevronRight, Image } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useI18n } from '@/hooks/useI18n'
 import {
   VideoCompress,
   VideoConvert,
+  VideoToGif,
   AudioConvert,
-  AudioExtract,
-  MediaTrim
+  AudioExtract
 } from '@/components/tools'
 
 function MediaToolsIndex(): JSX.Element {
@@ -32,6 +32,14 @@ function MediaToolsIndex(): JSX.Element {
       color: 'bg-indigo-500/20 text-indigo-400'
     },
     {
+      id: 'video-to-gif',
+      icon: Image,
+      label: t.media.videoToGif,
+      description: t.media.videoToGifDesc,
+      path: '/media/video-to-gif',
+      color: 'bg-emerald-500/20 text-emerald-400'
+    },
+    {
       id: 'audio-convert',
       icon: FileAudio,
       label: t.media.audioConvert,
@@ -46,14 +54,6 @@ function MediaToolsIndex(): JSX.Element {
       description: t.media.audioExtractDesc,
       path: '/media/audio-extract',
       color: 'bg-pink-500/20 text-pink-400'
-    },
-    {
-      id: 'trim',
-      icon: Scissors,
-      label: t.media.trim,
-      description: t.media.trimDesc,
-      path: '/media/trim',
-      color: 'bg-rose-500/20 text-rose-400'
     }
   ]
 
@@ -112,9 +112,9 @@ export default function MediaTools(): JSX.Element {
       <Route index element={<MediaToolsIndex />} />
       <Route path="video-compress" element={<VideoCompress />} />
       <Route path="video-convert" element={<VideoConvert />} />
+      <Route path="video-to-gif" element={<VideoToGif />} />
       <Route path="audio-convert" element={<AudioConvert />} />
       <Route path="audio-extract" element={<AudioExtract />} />
-      <Route path="trim" element={<MediaTrim />} />
     </Routes>
   )
 }

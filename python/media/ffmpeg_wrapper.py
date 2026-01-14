@@ -364,6 +364,71 @@ def trim_media(
     return outputPath
 
 
+def video_to_gif(
+    file: str,
+    outputPath: str,
+    fps: int = 10,
+    width: int = 480,
+    startTime: Optional[float] = None,
+    duration: Optional[float] = None,
+    _progress_callback: Optional[Callable] = None,
+    **kwargs
+) -> str:
+    """
+    Convert video to GIF.
+
+    Args:
+        file: Input video file path
+        outputPath: Output GIF file path
+        fps: Frames per second (default: 10)
+        width: Width in pixels, height auto-scaled (default: 480)
+        startTime: Start time in seconds (optional)
+        duration: Duration in seconds (optional)
+        _progress_callback: Optional progress callback
+
+    Returns:
+        Path to the output GIF file
+    """
+    logger.info(f"Converting video to GIF: {file}")
+
+    # Send initial progress
+    if _progress_callback:
+        _progress_callback(0, "Preparing...")
+
+    ffmpeg = get_ffmpeg_path()
+    media_info = get_media_info(file)
+    total_duration = media_info.get("duration", 0)
+
+    # Build filter for palette generation and GIF creation
+    # This creates high-quality GIFs with proper color palette
+    filters = f"fps={fps},scale={width}:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse"
+
+    cmd = [ffmpeg, "-i", file]
+
+    # Add start time if specified
+    if startTime is not None:
+        cmd.extend(["-ss", str(startTime)])
+
+    # Add duration if specified
+    if duration is not None:
+        cmd.extend(["-t", str(duration)])
+        total_duration = duration
+    elif startTime is not None:
+        total_duration = total_duration - startTime
+
+    cmd.extend([
+        "-vf", filters,
+        "-loop", "0",  # Loop forever
+        "-y",
+        outputPath
+    ])
+
+    _run_ffmpeg_with_progress(cmd, total_duration, _progress_callback)
+
+    logger.info(f"GIF saved to {outputPath}")
+    return outputPath
+
+
 def _run_ffmpeg_with_progress(
     cmd: list,
     duration: float,
@@ -376,16 +441,23 @@ def _run_ffmpeg_with_progress(
         universal_newlines=True
     )
 
-    time_pattern = re.compile(r"time=(\d{2}):(\d{2}):(\d{2})")
+    # Match time format: time=00:00:01.23 or time=00:00:01
+    time_pattern = re.compile(r"time=(\d{2}):(\d{2}):(\d{2})(?:\.(\d+))?")
 
     for line in process.stderr:
         if progress_callback and duration > 0:
             match = time_pattern.search(line)
             if match:
-                h, m, s = map(int, match.groups())
-                current_time = h * 3600 + m * 60 + s
+                h, m, s = int(match.group(1)), int(match.group(2)), int(match.group(3))
+                # Handle milliseconds if present
+                ms = int(match.group(4)) if match.group(4) else 0
+                # Normalize milliseconds (could be 1-3 digits)
+                if ms > 0:
+                    ms_str = match.group(4)
+                    ms = ms / (10 ** len(ms_str))
+                current_time = h * 3600 + m * 60 + s + ms
                 progress = min(current_time / duration * 100, 100)
-                progress_callback(progress)
+                progress_callback(progress, f"Converting... {int(progress)}%")
 
     process.wait()
 

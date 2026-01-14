@@ -18,6 +18,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useI18n } from '@/hooks/useI18n'
+import ActiveTasks from '@/components/ActiveTasks'
 
 const container = {
   hidden: { opacity: 0 },
@@ -119,6 +120,9 @@ export default function Home(): JSX.Element {
           {t.home.subtitle}
         </p>
       </motion.div>
+
+      {/* Active tasks progress */}
+      <ActiveTasks />
 
       {/* Category cards */}
       <div className="grid grid-cols-3 gap-5">

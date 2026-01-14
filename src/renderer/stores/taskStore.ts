@@ -13,8 +13,11 @@ interface TaskStore {
   completeTask: (id: string, output?: FileInfo) => void
   failTask: (id: string, error: string) => void
   cancelTask: (id: string) => void
+  cancelAndCleanupTask: (id: string) => Promise<void>
   removeTask: (id: string) => void
+  removeTaskWithCleanup: (id: string) => Promise<void>
   clearCompletedTasks: () => void
+  clearCompletedTasksWithCleanup: () => Promise<void>
   setActiveTask: (id: string | null) => void
   getTask: (id: string) => Task | undefined
   getPendingTasks: () => Task[]
@@ -95,6 +98,27 @@ export const useTaskStore = create<TaskStore>()(persist((set, get) => ({
     }))
   },
 
+  cancelAndCleanupTask: async (id) => {
+    const task = get().getTask(id)
+    if (!task) return
+
+    // Cancel the task in the backend (which also cleans up output files)
+    try {
+      await window.api.task.cancel(id)
+    } catch (e) {
+      console.error('Failed to cancel task in backend:', e)
+    }
+
+    // Update local state
+    set((state) => ({
+      tasks: state.tasks.map((t) =>
+        t.id === id && t.status === 'processing'
+          ? { ...t, status: 'cancelled' as TaskStatus, completedAt: new Date() }
+          : t
+      )
+    }))
+  },
+
   removeTask: (id) => {
     set((state) => ({
       tasks: state.tasks.filter((t) => t.id !== id),
@@ -102,7 +126,47 @@ export const useTaskStore = create<TaskStore>()(persist((set, get) => ({
     }))
   },
 
+  removeTaskWithCleanup: async (id) => {
+    const task = get().getTask(id)
+    if (task?.output?.path) {
+      // Cleanup the output file
+      try {
+        await window.api.task.cleanup(task.output.path)
+      } catch (e) {
+        console.error('Failed to cleanup task output:', e)
+      }
+    }
+
+    // Remove from local state
+    set((state) => ({
+      tasks: state.tasks.filter((t) => t.id !== id),
+      activeTaskId: state.activeTaskId === id ? null : state.activeTaskId
+    }))
+  },
+
   clearCompletedTasks: () => {
+    set((state) => ({
+      tasks: state.tasks.filter((t) => t.status !== 'completed' && t.status !== 'failed')
+    }))
+  },
+
+  clearCompletedTasksWithCleanup: async () => {
+    const completedTasks = get().tasks.filter(
+      (t) => t.status === 'completed' || t.status === 'failed'
+    )
+
+    // Cleanup all output files from completed/failed tasks
+    for (const task of completedTasks) {
+      if (task.output?.path) {
+        try {
+          await window.api.task.cleanup(task.output.path)
+        } catch (e) {
+          console.error(`Failed to cleanup output for task ${task.id}:`, e)
+        }
+      }
+    }
+
+    // Remove from local state
     set((state) => ({
       tasks: state.tasks.filter((t) => t.status !== 'completed' && t.status !== 'failed')
     }))

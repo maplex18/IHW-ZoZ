@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import { useTaskStore } from '@/stores/taskStore'
+import { toast } from '@/stores/toastStore'
 import { TaskType, FileInfo } from '@shared/types'
 
 interface UseTaskOptions {
@@ -15,11 +16,12 @@ interface UseTaskReturn {
   result: string | null
   taskId: string | null
   execute: <T>(apiCall: () => Promise<T>) => Promise<T | null>
+  cancel: () => Promise<void>
   reset: () => void
 }
 
 export function useTask({ taskType, onComplete, onError }: UseTaskOptions): UseTaskReturn {
-  const { addTask, updateTask, updateProgress, completeTask, failTask, tasks } = useTaskStore()
+  const { addTask, updateTask, updateProgress, completeTask, failTask, cancelAndCleanupTask, tasks } = useTaskStore()
 
   // Find existing processing task for this type
   const existingTask = tasks.find(t => t.type === taskType && t.status === 'processing')
@@ -75,6 +77,7 @@ export function useTask({ taskType, onComplete, onError }: UseTaskOptions): UseT
         const errorMessage = err instanceof Error ? err.message : String(err)
         setError(errorMessage)
         failTask(newTaskId, errorMessage)
+        toast.error('處理失敗', errorMessage)
         onError?.(errorMessage)
         return null
       } finally {
@@ -83,6 +86,21 @@ export function useTask({ taskType, onComplete, onError }: UseTaskOptions): UseT
     },
     [taskType, addTask, updateTask, completeTask, failTask, onComplete, onError]
   )
+
+  const cancel = useCallback(async () => {
+    if (!taskId) return
+
+    try {
+      // Cancel task in backend and cleanup output files
+      await cancelAndCleanupTask(taskId)
+      setIsProcessing(false)
+      setProgress(0)
+      setError('Task cancelled')
+      toast.info('任務已取消', '已清理相關緩存文件')
+    } catch (err) {
+      console.error('Failed to cancel task:', err)
+    }
+  }, [taskId, cancelAndCleanupTask])
 
   const reset = useCallback(() => {
     setIsProcessing(false)
@@ -99,6 +117,7 @@ export function useTask({ taskType, onComplete, onError }: UseTaskOptions): UseT
     result,
     taskId,
     execute,
+    cancel,
     reset
   }
 }

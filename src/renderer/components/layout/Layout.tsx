@@ -9,7 +9,7 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps): JSX.Element {
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen bg-black">
       {/* Header with drag region */}
       <Header />
 
@@ -19,7 +19,7 @@ export function Layout({ children }: LayoutProps): JSX.Element {
         <Sidebar />
 
         {/* Main content */}
-        <main className="flex-1 overflow-auto p-6">
+        <main className="flex-1 overflow-auto p-6 bg-black/50">
           {children}
         </main>
       </div>

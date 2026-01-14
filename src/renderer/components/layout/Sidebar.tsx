@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { Home, FileText, Play, Image, History, Settings } from 'lucide-react'
+import { Home, FileText, Play, Image, Download, History, Settings } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useI18n } from '@/hooks/useI18n'
 
@@ -11,6 +11,7 @@ export function Sidebar(): JSX.Element {
     { path: '/pdf', icon: FileText, label: t.nav.pdfTools },
     { path: '/media', icon: Play, label: t.nav.mediaTools },
     { path: '/image', icon: Image, label: t.nav.imageTools },
+    { path: '/download', icon: Download, label: t.nav.downloadTools },
     { path: '/history', icon: History, label: t.nav.history }
   ]
 

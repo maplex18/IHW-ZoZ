@@ -290,20 +290,30 @@ export class PythonBridge extends EventEmitter {
     return this.call('pdf.rotate', { file, outputPath, angle, pages })
   }
 
-  async pdfAddWatermark(
-    file: string,
-    outputPath: string,
-    watermark: { text?: string; image?: string; opacity?: number }
-  ): Promise<string> {
-    return this.call('pdf.addWatermark', { file, outputPath, ...watermark })
-  }
-
   async pdfEncrypt(file: string, outputPath: string, password: string): Promise<string> {
     return this.call('pdf.encrypt', { file, outputPath, password })
   }
 
   async pdfDecrypt(file: string, outputPath: string, password: string): Promise<string> {
     return this.call('pdf.decrypt', { file, outputPath, password })
+  }
+
+  async pdfCrack(
+    file: string,
+    outputPath: string,
+    options: {
+      method?: 'dictionary' | 'bruteforce' | 'custom'
+      maxLength?: number
+      charset?: 'digits' | 'lowercase' | 'uppercase' | 'alphanumeric'
+      customPasswords?: string[]
+    }
+  ): Promise<{
+    success: boolean
+    password: string | null
+    message: string
+    outputPath: string | null
+  }> {
+    return this.call('pdf.crack', { file, outputPath, ...options })
   }
 
   // Media Operations (via FFmpeg)
@@ -335,13 +345,12 @@ export class PythonBridge extends EventEmitter {
     return this.call('media.audioExtract', { file, outputPath, format })
   }
 
-  async mediaTrim(
+  async videoToGif(
     file: string,
     outputPath: string,
-    startTime: number,
-    endTime: number
+    options: { fps?: number; width?: number; startTime?: number; duration?: number }
   ): Promise<string> {
-    return this.call('media.trim', { file, outputPath, startTime, endTime })
+    return this.call('media.videoToGif', { file, outputPath, ...options })
   }
 
   // Image Operations
@@ -399,5 +408,65 @@ export class PythonBridge extends EventEmitter {
     options: { scaleFactor?: number; quality?: number }
   ): Promise<string> {
     return this.call('image.enlarge', { file, outputPath, ...options })
+  }
+
+  // Download Operations
+  async downloadCheckNetwork(): Promise<{
+    connected: boolean
+    host: string | null
+    message: string
+  }> {
+    return this.call('download.checkNetwork', {})
+  }
+
+  async downloadGetVideoInfo(url: string): Promise<{
+    title: string
+    description: string
+    duration: number
+    thumbnail: string
+    uploader: string
+    upload_date: string
+    view_count: number
+    formats: Array<{
+      format_id: string
+      type: string
+      resolution: string
+      height: number
+      ext: string
+      filesize: number | null
+      vcodec: string
+      acodec: string
+    }>
+    url: string
+  }> {
+    return this.call('download.getVideoInfo', { url })
+  }
+
+  async downloadVideo(
+    url: string,
+    outputPath: string,
+    options: {
+      resolution?: string
+      format?: string
+      audioOnly?: boolean
+      audioFormat?: string
+    }
+  ): Promise<{
+    success: boolean
+    outputPath: string
+    title: string
+    duration: number
+    message: string
+  }> {
+    return this.call('download.video', { url, outputPath, ...options })
+  }
+
+  // Task Management Operations
+  async cancelTask(taskId: string): Promise<{ cancelled: boolean; taskId: string }> {
+    return this.call('task:cancel', { taskId })
+  }
+
+  async cleanupFile(filePath: string): Promise<{ cleaned: boolean; filePath: string }> {
+    return this.call('task:cleanup', { filePath })
   }
 }

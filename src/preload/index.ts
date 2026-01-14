@@ -24,15 +24,20 @@ const pdfApi = {
     ipcRenderer.invoke('pdf:toImages', file, outputDir, format, dpi),
   rotate: (file: string, outputPath: string, angle: number, pages?: number[]) =>
     ipcRenderer.invoke('pdf:rotate', file, outputPath, angle, pages),
-  addWatermark: (
-    file: string,
-    outputPath: string,
-    watermark: { text?: string; image?: string; opacity?: number }
-  ) => ipcRenderer.invoke('pdf:addWatermark', file, outputPath, watermark),
   encrypt: (file: string, outputPath: string, password: string) =>
     ipcRenderer.invoke('pdf:encrypt', file, outputPath, password),
   decrypt: (file: string, outputPath: string, password: string) =>
-    ipcRenderer.invoke('pdf:decrypt', file, outputPath, password)
+    ipcRenderer.invoke('pdf:decrypt', file, outputPath, password),
+  crack: (
+    file: string,
+    outputPath: string,
+    options?: {
+      method?: 'dictionary' | 'bruteforce' | 'custom'
+      maxLength?: number
+      charset?: 'digits' | 'lowercase' | 'uppercase' | 'alphanumeric'
+      customPasswords?: string[]
+    }
+  ) => ipcRenderer.invoke('pdf:crack', file, outputPath, options)
 }
 
 // Media operations API
@@ -52,8 +57,11 @@ const mediaApi = {
   ) => ipcRenderer.invoke('media:audioConvert', file, outputPath, options),
   audioExtract: (file: string, outputPath: string, format?: string) =>
     ipcRenderer.invoke('media:audioExtract', file, outputPath, format),
-  trim: (file: string, outputPath: string, startTime: number, endTime: number) =>
-    ipcRenderer.invoke('media:trim', file, outputPath, startTime, endTime)
+  videoToGif: (
+    file: string,
+    outputPath: string,
+    options?: { fps?: number; width?: number; startTime?: number; duration?: number }
+  ) => ipcRenderer.invoke('media:videoToGif', file, outputPath, options)
 }
 
 // Image operations API
@@ -93,6 +101,28 @@ const imageApi = {
   ) => ipcRenderer.invoke('image:enlarge', file, outputPath, options)
 }
 
+// Download operations API
+const downloadApi = {
+  checkNetwork: () => ipcRenderer.invoke('download:checkNetwork'),
+  getVideoInfo: (url: string) => ipcRenderer.invoke('download:getVideoInfo', url),
+  download: (
+    url: string,
+    outputPath: string,
+    options?: {
+      resolution?: string
+      format?: string
+      audioOnly?: boolean
+      audioFormat?: string
+    }
+  ) => ipcRenderer.invoke('download:video', url, outputPath, options)
+}
+
+// Task management API
+const taskApi = {
+  cancel: (taskId: string) => ipcRenderer.invoke('task:cancel', taskId),
+  cleanup: (filePath: string) => ipcRenderer.invoke('task:cleanup', filePath)
+}
+
 // Event listeners
 const events = {
   onProgress: (callback: (data: { taskId: string; progress: number; message?: string }) => void) => {
@@ -109,6 +139,8 @@ const api = {
   pdf: pdfApi,
   media: mediaApi,
   image: imageApi,
+  download: downloadApi,
+  task: taskApi,
   events
 }
 

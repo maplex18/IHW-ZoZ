@@ -6,9 +6,9 @@ import {
   Minimize2,
   Image,
   RotateCw,
-  Droplet,
   Lock,
   Unlock,
+  KeyRound,
   ChevronRight
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -19,9 +19,9 @@ import {
   PdfCompress,
   PdfToImages,
   PdfRotate,
-  PdfWatermark,
   PdfEncrypt,
-  PdfDecrypt
+  PdfDecrypt,
+  PdfCrack
 } from '@/components/tools'
 
 function PdfToolsIndex(): JSX.Element {
@@ -33,9 +33,9 @@ function PdfToolsIndex(): JSX.Element {
     { id: 'compress', icon: Minimize2, label: t.pdf.compress, desc: t.pdf.compressDesc, path: '/pdf/compress', color: 'bg-yellow-500/20 text-yellow-400' },
     { id: 'to-images', icon: Image, label: t.pdf.toImages, desc: t.pdf.toImagesDesc, path: '/pdf/to-images', color: 'bg-green-500/20 text-green-400' },
     { id: 'rotate', icon: RotateCw, label: t.pdf.rotate, desc: t.pdf.rotateDesc, path: '/pdf/rotate', color: 'bg-teal-500/20 text-teal-400' },
-    { id: 'watermark', icon: Droplet, label: t.pdf.watermark, desc: t.pdf.watermarkDesc, path: '/pdf/watermark', color: 'bg-cyan-500/20 text-cyan-400' },
-    { id: 'encrypt', icon: Lock, label: t.pdf.encrypt, desc: t.pdf.encryptDesc, path: '/pdf/encrypt', color: 'bg-blue-500/20 text-blue-400' },
-    { id: 'decrypt', icon: Unlock, label: t.pdf.decrypt, desc: t.pdf.decryptDesc, path: '/pdf/decrypt', color: 'bg-indigo-500/20 text-indigo-400' }
+    { id: 'encrypt', icon: Lock, label: t.pdf.encrypt, desc: t.pdf.encryptDesc, path: '/pdf/encrypt', color: 'bg-cyan-500/20 text-cyan-400' },
+    { id: 'decrypt', icon: Unlock, label: t.pdf.decrypt, desc: t.pdf.decryptDesc, path: '/pdf/decrypt', color: 'bg-indigo-500/20 text-indigo-400' },
+    { id: 'crack', icon: KeyRound, label: t.pdf.crack, desc: t.pdf.crackDesc, path: '/pdf/crack', color: 'bg-purple-500/20 text-purple-400' }
   ]
 
   return (
@@ -78,9 +78,9 @@ export default function PdfTools(): JSX.Element {
       <Route path="compress" element={<PdfCompress />} />
       <Route path="to-images" element={<PdfToImages />} />
       <Route path="rotate" element={<PdfRotate />} />
-      <Route path="watermark" element={<PdfWatermark />} />
       <Route path="encrypt" element={<PdfEncrypt />} />
       <Route path="decrypt" element={<PdfDecrypt />} />
+      <Route path="crack" element={<PdfCrack />} />
     </Routes>
   )
 }

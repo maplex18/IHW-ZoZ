@@ -13,6 +13,7 @@ from core.server import JsonRpcServer
 from pdf import merger, splitter, compressor, converter, editor, security
 from media import ffmpeg_wrapper
 from image import processor as image_processor
+from download import youtube as youtube_downloader
 
 # Configure logging
 logger.remove()
@@ -32,6 +33,7 @@ def create_server() -> JsonRpcServer:
     server.register("pdf.addWatermark", editor.add_watermark)
     server.register("pdf.encrypt", security.encrypt_pdf)
     server.register("pdf.decrypt", security.decrypt_pdf)
+    server.register("pdf.crack", security.crack_pdf)
 
     # Register media methods
     server.register("media.info", ffmpeg_wrapper.get_media_info)
@@ -40,6 +42,7 @@ def create_server() -> JsonRpcServer:
     server.register("media.audioConvert", ffmpeg_wrapper.convert_audio)
     server.register("media.audioExtract", ffmpeg_wrapper.extract_audio)
     server.register("media.trim", ffmpeg_wrapper.trim_media)
+    server.register("media.videoToGif", ffmpeg_wrapper.video_to_gif)
 
     # Register image methods
     server.register("image.info", image_processor.get_image_info)
@@ -50,6 +53,11 @@ def create_server() -> JsonRpcServer:
     server.register("image.rotate", image_processor.rotate_image)
     server.register("image.flip", image_processor.flip_image)
     server.register("image.enlarge", image_processor.enlarge_image)
+
+    # Register download methods
+    server.register("download.checkNetwork", youtube_downloader.check_network)
+    server.register("download.getVideoInfo", youtube_downloader.get_video_info)
+    server.register("download.video", youtube_downloader.download_video)
 
     return server
 

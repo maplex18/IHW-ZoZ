@@ -56,35 +56,101 @@ def rotate_pdf(
         doc.close()
 
 
+def _calc_watermark_rect(
+    page_rect: fitz.Rect,
+    img_width: int,
+    img_height: int,
+    position: str,
+    scale: float
+) -> fitz.Rect:
+    """計算浮水印的位置和大小"""
+    img_aspect = img_width / img_height
+    max_wm_width = page_rect.width * scale
+    max_wm_height = page_rect.height * scale
+
+    # 保持圖片比例
+    if img_aspect > 1:
+        wm_width = max_wm_width
+        wm_height = max_wm_width / img_aspect
+    else:
+        wm_height = max_wm_height
+        wm_width = max_wm_height * img_aspect
+
+    margin = 20
+    positions = {
+        "center": ((page_rect.width - wm_width) / 2, (page_rect.height - wm_height) / 2),
+        "top-left": (margin, margin),
+        "top-right": (page_rect.width - wm_width - margin, margin),
+        "bottom-left": (margin, page_rect.height - wm_height - margin),
+        "bottom-right": (page_rect.width - wm_width - margin, page_rect.height - wm_height - margin),
+        "top": ((page_rect.width - wm_width) / 2, margin),
+        "bottom": ((page_rect.width - wm_width) / 2, page_rect.height - wm_height - margin),
+        "left": (margin, (page_rect.height - wm_height) / 2),
+        "right": (page_rect.width - wm_width - margin, (page_rect.height - wm_height) / 2),
+    }
+
+    x0, y0 = positions.get(position, positions["center"])
+    return fitz.Rect(x0, y0, x0 + wm_width, y0 + wm_height)
+
+
 def add_watermark(
     file: str,
     outputPath: str,
     text: Optional[str] = None,
     image: Optional[str] = None,
     opacity: float = 0.3,
+    position: str = "center",
+    scale: float = 0.3,
     _progress_callback: Optional[Callable] = None,
     **kwargs
 ) -> str:
     """
     Add watermark to PDF.
 
-    Args:
-        file: Input PDF file path
-        outputPath: Output PDF file path
-        text: Watermark text
-        image: Watermark image path
-        opacity: Watermark opacity (0-1)
-        _progress_callback: Optional progress callback
-
-    Returns:
-        Path to the watermarked PDF file
+    For image watermarks, blends the image with white background based on opacity.
     """
     import math
+    import io
+    from PIL import Image as PILImage
 
     logger.info(f"Adding watermark to PDF: {file}")
+    logger.info(f"Parameters: text={text}, image={image}, opacity={opacity}, position={position}, scale={scale}")
 
     doc = fitz.open(file)
     total_pages = len(doc)
+
+    # 預處理圖片和遮罩
+    img_pixmap = None
+    mask_pixmap = None
+    img_width, img_height = 0, 0
+
+    if image:
+        # 載入原始圖片
+        pil_img = PILImage.open(image)
+        img_width, img_height = pil_img.width, pil_img.height
+
+        # 轉換為 RGB（不帶 alpha）
+        if pil_img.mode == 'RGBA':
+            # 如果有 alpha，先合成到白色背景
+            rgb_img = PILImage.new('RGB', pil_img.size, (255, 255, 255))
+            rgb_img.paste(pil_img, mask=pil_img.split()[3])
+        else:
+            rgb_img = pil_img.convert('RGB')
+
+        # 創建圖片的 Pixmap
+        img_buffer = io.BytesIO()
+        rgb_img.save(img_buffer, format='PNG')
+        img_pixmap = fitz.Pixmap(img_buffer.getvalue())
+
+        # 創建遮罩 Pixmap（灰度圖，值 = opacity * 255）
+        # 遮罩中 255 = 完全不透明，0 = 完全透明
+        mask_value = int(opacity * 255)
+        mask_img = PILImage.new('L', (img_width, img_height), mask_value)
+        mask_buffer = io.BytesIO()
+        mask_img.save(mask_buffer, format='PNG')
+        mask_pixmap = fitz.Pixmap(mask_buffer.getvalue())
+
+        logger.info(f"Processed watermark image: {img_width}x{img_height}, opacity={opacity}, mask_value={mask_value}")
 
     try:
         for page_num in range(total_pages):
@@ -92,68 +158,37 @@ def add_watermark(
             rect = page.rect
 
             if text:
-                # Add diagonal text watermark using shapes
+                # 文字浮水印
                 fontsize = 60
-                color = (0.5, 0.5, 0.5)  # Gray color
-
-                # Calculate center position
+                color = (0.5, 0.5, 0.5)
                 center_x = rect.width / 2
                 center_y = rect.height / 2
+                angle = -45
 
-                # Create shape for drawing
-                shape = page.new_shape()
-
-                # Calculate text position for diagonal watermark
-                # Rotate 45 degrees around center
-                angle = -45  # Diagonal angle
-
-                # Insert text at center with rotation using morph
-                text_point = fitz.Point(center_x, center_y)
-
-                # Use insert_text with a transformation matrix for rotation
-                # First insert normally, then we'll use a different approach
-
-                # Simple diagonal text - insert multiple times for visibility
                 text_length = fitz.get_text_length(text, fontsize=fontsize)
-
-                # Create rotated text using TextWriter
                 tw = fitz.TextWriter(page.rect, opacity=opacity, color=color)
-
-                # Calculate position to center the text
                 x = center_x - text_length / 2
                 y = center_y
 
-                # Add text with rotation using morph parameter
-                tw.append(
-                    (x, y),
-                    text,
-                    fontsize=fontsize,
-                    font=fitz.Font("helv")
-                )
+                tw.append((x, y), text, fontsize=fontsize, font=fitz.Font("helv"))
 
-                # Apply with rotation (45 degrees = pi/4 radians)
-                # morph = (pivot_point, matrix)
                 pivot = fitz.Point(center_x, center_y)
-                matrix = fitz.Matrix(math.cos(math.radians(angle)), math.sin(math.radians(angle)),
-                                    -math.sin(math.radians(angle)), math.cos(math.radians(angle)), 0, 0)
-
+                rot = math.radians(angle)
+                matrix = fitz.Matrix(math.cos(rot), math.sin(rot), -math.sin(rot), math.cos(rot), 0, 0)
                 tw.write_text(page, opacity=opacity, morph=(pivot, matrix))
 
-            elif image:
-                # Add image watermark
-                img_rect = fitz.Rect(
-                    rect.width / 4,
-                    rect.height / 4,
-                    rect.width * 3 / 4,
-                    rect.height * 3 / 4
-                )
+            elif image and img_pixmap:
+                # 計算浮水印位置和大小
+                img_rect = _calc_watermark_rect(rect, img_width, img_height, position, scale)
+
+                # 使用 pixmap 和 mask 插入帶透明度的圖片
                 page.insert_image(
                     img_rect,
-                    filename=image,
-                    overlay=True
+                    pixmap=img_pixmap,
+                    mask=mask_pixmap,
+                    overlay=True,
+                    keep_proportion=True
                 )
-                # Note: PyMuPDF insert_image doesn't directly support opacity
-                # The image should be pre-processed with transparency if needed
 
             if _progress_callback:
                 progress = (page_num + 1) / total_pages * 100

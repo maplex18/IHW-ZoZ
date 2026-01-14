@@ -55,16 +55,16 @@ export function registerIpcHandlers(ipcMain: IpcMain, pythonBridge: PythonBridge
     return pythonBridge.pdfRotate(file, outputPath, angle, pages)
   })
 
-  ipcMain.handle('pdf:addWatermark', async (_, file: string, outputPath: string, watermark) => {
-    return pythonBridge.pdfAddWatermark(file, outputPath, watermark)
-  })
-
   ipcMain.handle('pdf:encrypt', async (_, file: string, outputPath: string, password: string) => {
     return pythonBridge.pdfEncrypt(file, outputPath, password)
   })
 
   ipcMain.handle('pdf:decrypt', async (_, file: string, outputPath: string, password: string) => {
     return pythonBridge.pdfDecrypt(file, outputPath, password)
+  })
+
+  ipcMain.handle('pdf:crack', async (_, file: string, outputPath: string, options) => {
+    return pythonBridge.pdfCrack(file, outputPath, options || {})
   })
 
   // Media Operations
@@ -88,8 +88,8 @@ export function registerIpcHandlers(ipcMain: IpcMain, pythonBridge: PythonBridge
     return pythonBridge.audioExtract(file, outputPath, format)
   })
 
-  ipcMain.handle('media:trim', async (_, file: string, outputPath: string, startTime, endTime) => {
-    return pythonBridge.mediaTrim(file, outputPath, startTime, endTime)
+  ipcMain.handle('media:videoToGif', async (_, file: string, outputPath: string, options) => {
+    return pythonBridge.videoToGif(file, outputPath, options || {})
   })
 
   // Image Operations
@@ -123,6 +123,28 @@ export function registerIpcHandlers(ipcMain: IpcMain, pythonBridge: PythonBridge
 
   ipcMain.handle('image:enlarge', async (_, file: string, outputPath: string, options) => {
     return pythonBridge.imageEnlarge(file, outputPath, options)
+  })
+
+  // Download Operations
+  ipcMain.handle('download:checkNetwork', async () => {
+    return pythonBridge.downloadCheckNetwork()
+  })
+
+  ipcMain.handle('download:getVideoInfo', async (_, url: string) => {
+    return pythonBridge.downloadGetVideoInfo(url)
+  })
+
+  ipcMain.handle('download:video', async (_, url: string, outputPath: string, options) => {
+    return pythonBridge.downloadVideo(url, outputPath, options || {})
+  })
+
+  // Task Management Operations
+  ipcMain.handle('task:cancel', async (_, taskId: string) => {
+    return pythonBridge.cancelTask(taskId)
+  })
+
+  ipcMain.handle('task:cleanup', async (_, filePath: string) => {
+    return pythonBridge.cleanupFile(filePath)
   })
 
   // Progress events
