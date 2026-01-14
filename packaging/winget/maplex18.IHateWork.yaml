@@ -5,7 +5,7 @@
 #   winget install maplex18.IHateWork
 
 PackageIdentifier: maplex18.IHateWork
-PackageVersion: 1.0.0
+PackageVersion: 1.0.4
 PackageLocale: en-US
 Publisher: maplex18
 PublisherUrl: https://github.com/maplex18
@@ -33,7 +33,7 @@ Tags:
 Installers:
   - Architecture: x64
     InstallerType: nsis
-    InstallerUrl: https://github.com/maplex18/IHateWork/releases/download/v1.0.3/IHateWork-Setup-1.0.0.exe
+    InstallerUrl: https://github.com/maplex18/IHateWork/releases/download/v1.0.4/IHateWork-Setup-1.0.4.exe
     InstallerSha256: REPLACE_WITH_ACTUAL_SHA256
 ManifestType: singleton
 ManifestVersion: 1.6.0
