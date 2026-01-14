@@ -59,6 +59,7 @@
 
 | Feature | Description |
 |:-----|:-----|
+| YouTube Download | Download YouTube videos |
 | Video Compress | Reduce video size |
 | Video Convert | MP4/MKV/AVI... |
 | Audio Convert | MP3/WAV/FLAC... |
