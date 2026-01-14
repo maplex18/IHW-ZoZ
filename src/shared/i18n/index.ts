@@ -7,7 +7,7 @@ export const translations = {
     app: {
       name: 'IHW-ZoZ',
       tagline: '本地媒體處理工具',
-      version: 'v1.0.0',
+      version: 'v1.1',
       ready: '就緒',
       processing: '處理中...',
     },
@@ -240,7 +240,7 @@ export const translations = {
     app: {
       name: 'IHW-ZoZ',
       tagline: 'Local Media Processing Tool',
-      version: 'v1.0.0',
+      version: 'v1.1',
       ready: 'Ready',
       processing: 'Processing...',
     },
@@ -460,7 +460,7 @@ export const translations = {
     app: {
       name: 'IHW-ZoZ',
       tagline: 'ローカルメディア処理ツール',
-      version: 'v1.0.0',
+      version: 'v1.1',
       ready: '準備完了',
       processing: '処理中...',
     },
