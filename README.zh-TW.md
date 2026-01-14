@@ -22,7 +22,8 @@
   <a href="#-安裝指南">安裝指南</a> •
   <a href="#-技術架構">技術架構</a> •
   <a href="#-授權條款">授權條款</a> •
-  <a href="README.md">English</a>
+  <a href="README.md">English</a> •
+  <a href="README.ja.md">日本語</a>
 </p>
 
 ---

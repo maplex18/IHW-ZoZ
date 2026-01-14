@@ -22,7 +22,8 @@
   <a href="#-installation">Installation</a> •
   <a href="#-tech-stack">Tech Stack</a> •
   <a href="#-license">License</a> •
-  <a href="README.zh-TW.md">繁體中文</a>
+  <a href="README.zh-TW.md">繁體中文</a> •
+  <a href="README.ja.md">日本語</a>
 </p>
 
 ---
