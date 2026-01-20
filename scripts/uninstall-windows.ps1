@@ -40,9 +40,13 @@ Remove-IfExists "$env:LOCALAPPDATA\$APP_NAME"
 Remove-IfExists "$env:LOCALAPPDATA\ihw-zoz"
 Remove-IfExists "$env:LOCALAPPDATA\ihw-zoz-updater"
 
-# Program Files
+# Program Files (for per-machine installation)
 Remove-IfExists "$env:ProgramFiles\$APP_NAME"
 Remove-IfExists "${env:ProgramFiles(x86)}\$APP_NAME"
+
+# Per-user installation location
+Remove-IfExists "$env:LOCALAPPDATA\Programs\$APP_NAME"
+Remove-IfExists "$env:LOCALAPPDATA\Programs\ihw-zoz"
 
 # Desktop shortcuts
 Remove-IfExists "$env:USERPROFILE\Desktop\IHW-ZoZ.lnk"

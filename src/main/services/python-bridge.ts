@@ -137,7 +137,11 @@ export class PythonBridge extends EventEmitter {
           PYTHONIOENCODING: 'utf-8',
           FFMPEG_PATH: ffmpegPathValue,
           FFPROBE_PATH: ffprobePathValue
-        }
+        },
+        // Windows-specific options for better stability
+        windowsHide: true,
+        // Use shell on Windows to handle paths with spaces
+        shell: process.platform === 'win32'
       })
 
       this.process.stdout?.on('data', (data: Buffer) => {

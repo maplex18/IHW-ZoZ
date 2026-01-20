@@ -1,6 +1,6 @@
 {
   "name": "ihw-zoz",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Cross-platform local media processing tool",
   "main": "./out/main/index.js",
   "author": {
@@ -116,11 +116,18 @@
     },
     "win": {
       "target": [
-        "nsis",
-        "portable"
+        {
+          "target": "nsis",
+          "arch": ["x64", "ia32"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64", "ia32"]
+        }
       ],
       "icon": "build/icon.ico",
-      "artifactName": "${productName}-${version}-win.${ext}"
+      "artifactName": "${productName}-${version}-win-${arch}.${ext}",
+      "publisherName": "maple"
     },
     "linux": {
       "target": [
@@ -128,17 +135,23 @@
         "deb"
       ],
       "icon": "build/icon.png",
-      "category": "Utility"
+      "category": "Utility",
+      "artifactName": "${productName}-${version}-linux-${arch}.${ext}"
     },
     "nsis": {
       "oneClick": false,
+      "perMachine": false,
       "allowToChangeInstallationDirectory": true,
+      "allowElevation": true,
       "installerIcon": "build/icon.ico",
       "uninstallerIcon": "build/icon.ico",
       "installerHeaderIcon": "build/icon.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "IHW-ZoZ"
+      "shortcutName": "IHW-ZoZ",
+      "uninstallDisplayName": "IHW-ZoZ ${version}",
+      "deleteAppDataOnUninstall": true,
+      "runAfterFinish": true
     },
     "electronLanguages": [
       "en-US",
